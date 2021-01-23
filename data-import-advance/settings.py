@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'product',
 ]
 
 MIDDLEWARE = [
@@ -75,8 +76,12 @@ WSGI_APPLICATION = 'data-import-advance.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',
+        'HOST': 'ec2-54-217-224-85.eu-west-1.compute.amazonaws.com',
+        'NAME': 'dd0tp0a2uphalu',
+        'PORT': '5432',
+        'USER': 'rtymufppvbgfxt',
+        'PASSWORD': '1235f57da13cd4712d9978533b64b09bea4283c2f5970677f5441912d5214d0c'
     }
 }
 
