@@ -1,5 +1,5 @@
-Backend Engineer - Product Importer - Advanced
-Difficulty level: High
+# Importer - Advanced
+
 Skills tested: Ability to handle long running processes, use python, use ORMs and deployment
 Objective
 Acme Inc needs to be able to import products from a CSV file and into their SQL database. Given there are half a
