@@ -2,3 +2,42 @@
 {% load static %}
 
 {% block title %}Products{% endblock %}
+
+{% block csstags %}
+<link rel="stylesheet" href="https://cdn.datatables.net/1.10.23/css/jquery.dataTables.min.css">
+{% endblock %}
+
+{% block jstags %}
+{% endblock %}
+
+{% block css %}
+{% endblock %}
+
+{% block container %}
+<div>
+
+</div>
+
+{% endblock %}
+
+{% block javascript %}
+<scrip src="https://cdn.datatables.net/1.10.23/js/jquery.dataTables.min.js"></scrip>
+    <script>
+        $(document).ready( function () {
+            $('#myTable').DataTable({
+                "destroy": true,
+                "scrollX": true,
+                "ordering": true,
+                "pageLength": 25,
+                "lengthMenu": [[10, 25, 50], [10, 25, 50]],
+                "ajax": {
+                    "url": "{% url 'product-list-data-json' %}",
+                },
+                "columns": [
+                    {"data": "name"},
+                    {"data": "sku"},
+                ],
+            });
+        } );
+    </script>
+{% endblock %}
