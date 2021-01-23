@@ -14,17 +14,46 @@
 {% endblock %}
 
 {% block container %}
-<div>
-
-</div>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12 col-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="chart-title">
+                            All Products
+                        </h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive overflow-hidden">
+                            <table class="table display nowrap" id="product_data_table" style="width:100%">
+                                <thead>
+                                    <tr class="text-center">
+                                        <th class="font-weight-bold">
+                                            Name
+                                        </th>
+                                        <th class="font-weight-bold">
+                                            Sku
+                                        </th>
+                                    </tr>
+                                </thead>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
 {% endblock %}
 
 {% block javascript %}
-<scrip src="https://cdn.datatables.net/1.10.23/js/jquery.dataTables.min.js"></scrip>
+<script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+<link rel="stylesheet" href="https://cdn.datatables.net/1.10.23/css/jquery.dataTables.min.css">
+<script src="https://cdn.datatables.net/1.10.23/js/jquery.dataTables.min.js"></script>
+
     <script>
         $(document).ready( function () {
-            $('#myTable').DataTable({
+            $('#product_data_table').DataTable({
                 "destroy": true,
                 "scrollX": true,
                 "ordering": true,
