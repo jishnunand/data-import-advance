@@ -1,4 +1,4 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 from django.http import JsonResponse
 from django.contrib.auth.decorators import login_required
 from django_datatables_view.base_datatable_view import BaseDatatableView
@@ -38,6 +38,15 @@ class ProductListJson(BaseDatatableView):
     # and make it return huge amount of data
     max_display_length = 500
 
+    def prepare_results(self, qs):
+        data = []
+        for item in qs:
+            dictionary = dict()
+            for column in self.get_columns():
+                dictionary[column] = self.render_column(item, column)
+            data.append(dictionary)
+        return data
+
 
 @login_required
 def data_flush(request):
@@ -51,7 +60,7 @@ def data_flush(request):
     return JsonResponse(context)
 
 
-def product_creation_edit(request, product_id):
+def product_creation_edit(request, product_id=None):
     """
 
     :param request:
@@ -65,6 +74,7 @@ def product_creation_edit(request, product_id):
     form = ProductForm(request.POST or None, instance=query)
     if request.POST and form.is_valid():
         form.save()
+        return redirect('product-list')
     else:
         context['form'] = form
     return render(request, 'product/product-creation-edit.html', context=context)

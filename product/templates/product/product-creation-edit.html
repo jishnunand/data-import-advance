@@ -1,7 +1,8 @@
 {% extends 'base.html' %}
 {% load static %}
+{% load widget_tweaks %}
 
-{% block title %}Products{% endblock %}
+{% block title %}Product Creation{% endblock %}
 
 {% block csstags %}
 <link rel="stylesheet" href="https://cdn.datatables.net/1.10.23/css/jquery.dataTables.min.css">
@@ -20,24 +21,47 @@
                 <div class="card">
                     <div class="card-header">
                         <h3 class="chart-title">
-                            All Products
+                            {% if product_id %}
+                                Edit
+                            {% else %}
+                                Create
+                            {% endif %}
                         </h3>
                     </div>
                     <div class="card-body">
-                        <div class="table-responsive overflow-hidden">
-                            <table class="table display nowrap" id="product_data_table" style="width:100%">
-                                <thead>
-                                    <tr class="text-center">
-                                        <th class="font-weight-bold">
-                                            Name
-                                        </th>
-                                        <th class="font-weight-bold">
-                                            Sku
-                                        </th>
-                                    </tr>
-                                </thead>
-                            </table>
-                        </div>
+                        <form action="{% if product_id %} {% url 'product-data-edit' product_id %} {% else %} {% url 'product-data-create' %} {% endif %}" method="post">
+                            {% csrf_token %}
+                            <div class="row">
+                                <div class="col-md-6">
+                                    {{form.name.label}}
+                                </div>
+                                <div class="col-md-6">
+                                    {{form.name | add_class:'form-control'}}
+                                </div>
+                            </div>
+                            <div class="row mt-2">
+                                <div class="col-md-6">
+                                    {{form.sku.label}}
+                                </div>
+                                <div class="col-md-6">
+                                    {{form.sku | add_class:'form-control'}}
+                                </div>
+                            </div>
+                            <div class="row mt-2">
+                                <div class="col-md-6">
+                                    {{form.description.label}}
+                                </div>
+                                <div class="col-md-6">
+                                    {{form.description | add_class:'form-control'}}
+                                </div>
+                            </div>
+                            <div class="row mt-2">
+                                <div class="col-md-12 text-right float-right">
+                                    <button class="btn btn-primary rounded-pill" type="submit">Save</button>
+                                    <a href="{% url 'product-list' %}" class="btn btn-secondary rounded-pill">Cancel</a>
+                                </div>
+                            </div>
+                        </form>
                     </div>
                 </div>
             </div>
@@ -48,25 +72,4 @@
 
 {% block javascript %}
 <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
-<link rel="stylesheet" href="https://cdn.datatables.net/1.10.23/css/jquery.dataTables.min.css">
-<script src="https://cdn.datatables.net/1.10.23/js/jquery.dataTables.min.js"></script>
-
-    <script>
-        $(document).ready( function () {
-            $('#product_data_table').DataTable({
-                "destroy": true,
-                "scrollX": true,
-                "ordering": true,
-                "pageLength": 25,
-                "lengthMenu": [[10, 25, 50], [10, 25, 50]],
-                "ajax": {
-                    "url": "{% url 'product-list-data-json' %}",
-                },
-                "columns": [
-                    {"data": "name"},
-                    {"data": "sku"},
-                ],
-            });
-        } );
-    </script>
 {% endblock %}
