@@ -19,9 +19,14 @@
             <div class="col-md-12 col-12">
                 <div class="card">
                     <div class="card-header">
-                        <h3 class="chart-title">
-                            All Products
-                        </h3>
+                        <div class="chart-title">
+                            <h3>All Products</h3>
+                            <div class="text-right">
+                                <a href="{% url 'product-data-create' %}" class="btn btn-primary">Add Product</a>
+                                <a href="#" class="btn btn-primary">Bulk Import</a>
+                            </div>
+
+                        </div>
                     </div>
                     <div class="card-body">
                         <div class="table-responsive overflow-hidden">
