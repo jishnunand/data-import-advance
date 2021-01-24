@@ -1,10 +1,11 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from django.http import JsonResponse
 from django.contrib.auth.decorators import login_required
 from django_datatables_view.base_datatable_view import BaseDatatableView
 
 from product.filters import ProductFilter
 from product.models import Product
+from product.forms import ProductForm
 
 
 def product_list_view(request):
@@ -47,4 +48,40 @@ def data_flush(request):
     """
     Product.objects.all().delete()
     context = {"message": "Data flush completed successfully"}
+    return JsonResponse(context)
+
+
+def product_creation_edit(request, product_id):
+    """
+
+    :param request:
+    :param product_id:
+    :return:
+    """
+    context = dict()
+    if product_id:
+        context['product_id'] = product_id
+    query = get_object_or_404(Product, pk=product_id) if product_id else None
+    form = ProductForm(request.POST or None, instance=query)
+    if request.POST and form.is_valid():
+        form.save()
+    else:
+        context['form'] = form
+    return render(request, 'product/product-creation-edit.html', context=context)
+
+
+@login_required
+def product_data_delete(request, product_id):
+    """
+
+    :param request:
+    :param product_id:
+    :return:
+    """
+    context = dict()
+    try:
+        Product.objects.get(pk=product_id).delete()
+    except Product.DoesNotExist:
+        context = {"message": "Requested data not available"}
+    context = {"message": "Requested data removed successfully"}
     return JsonResponse(context)

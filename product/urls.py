@@ -5,4 +5,6 @@ urlpatterns = [
     path('', views.product_list_view, name='product-list'),
     path('data/list/', views.ProductListJson.as_view(), name='product-list-data-json'),
     path('data/flush', views.data_flush, name='product-data-flush'),
+    path('data/create', views.product_creation_edit, name='product-data-create'),
+    path('data/<int:product_id>/edit', views.product_creation_edit, name='product-data-edit'),
 ]
