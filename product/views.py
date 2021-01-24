@@ -1,4 +1,6 @@
 from django.shortcuts import render
+from django.http import JsonResponse
+from django.contrib.auth.decorators import login_required
 from django_datatables_view.base_datatable_view import BaseDatatableView
 
 from product.filters import ProductFilter
@@ -35,3 +37,14 @@ class ProductListJson(BaseDatatableView):
     # and make it return huge amount of data
     max_display_length = 500
 
+
+@login_required
+def data_flush(request):
+    """
+
+    :param request:
+    :return:
+    """
+    Product.objects.all().delete()
+    context = {"message": "Data flush completed successfully"}
+    return JsonResponse(context)
