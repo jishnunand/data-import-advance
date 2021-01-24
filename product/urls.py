@@ -7,4 +7,5 @@ urlpatterns = [
     path('data/flush', views.data_flush, name='product-data-flush'),
     path('data/create', views.product_creation_edit, name='product-data-create'),
     path('data/<int:product_id>/edit', views.product_creation_edit, name='product-data-edit'),
+    path('data/bulk-import', views.upload_file, name='product-bulk-import'),
 ]

@@ -5,7 +5,7 @@ from django_datatables_view.base_datatable_view import BaseDatatableView
 
 from product.filters import ProductFilter
 from product.models import Product
-from product.forms import ProductForm
+from product.forms import ProductForm, ProductBulkImportForm
 
 
 def product_list_view(request):
@@ -95,3 +95,23 @@ def product_data_delete(request, product_id):
         context = {"message": "Requested data not available"}
     context = {"message": "Requested data removed successfully"}
     return JsonResponse(context)
+
+
+def upload_file(request):
+    """
+
+    :param request:
+    :return:
+    """
+    context = dict()
+    form = ProductBulkImportForm(request.POST or None, request.FILES or None)
+    if request.method == 'POST' and form.is_valid():
+        print(request.FILES)
+        handle_uploaded_file(request.FILES['file_upload'])
+        return redirect('product-list')
+    context['form'] = form
+    return render(request, 'product/bulk-import.html', context=context)
+
+
+def handle_uploaded_file(file):
+    print(file)
