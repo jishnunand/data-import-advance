@@ -8,4 +8,5 @@ urlpatterns = [
     path('data/create', views.product_creation_edit, name='product-data-create'),
     path('data/<int:product_id>/edit', views.product_creation_edit, name='product-data-edit'),
     path('data/bulk-import', views.upload_file, name='product-bulk-import'),
+    path('data/<int:product_id>/delete', views.product_data_delete, name='product-data-delete'),
 ]

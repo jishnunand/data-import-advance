@@ -33,6 +33,8 @@
                             <table class="table display nowrap" id="product_data_table" style="width:100%">
                                 <thead>
                                     <tr class="text-center">
+                                        <th></th>
+                                        <th></th>
                                         <th class="font-weight-bold">
                                             Name
                                         </th>
@@ -68,9 +70,29 @@
                     "url": "{% url 'product-list-data-json' %}",
                 },
                 "columns": [
+                    {"data": "edit"},
+                    {"data": "delete"},
                     {"data": "name"},
                     {"data": "sku"},
                 ],
+            });
+            $(document).on("click", ".data-delete", function(){
+                var url = $(this).data('href');
+                $.ajax({
+                    method: "POST",
+                    url: url,
+                    data: {
+                        'csrfmiddlewaretoken': '{{csrf_token}}'
+                    },
+                    success: function(result){
+                        if(result.status == 200){
+                            $('#product_data_table').DataTable().ajax.reload();
+                        }
+                    },
+                    error: function(){
+                        console.log('error')
+                    }
+                });
             });
         } );
     </script>
