@@ -19,15 +19,22 @@
             <div class="col-md-12 col-12">
                 <div class="card">
                     <div class="card-header">
-                        <h3 class="chart-title">
-                            All Products
-                        </h3>
+                        <div class="chart-title">
+                            <h3>All Products</h3>
+                            <div class="text-right">
+                                <a href="{% url 'product-data-create' %}" class="btn btn-primary">Add Product</a>
+                                <a href="{% url 'product-bulk-import' %}" class="btn btn-primary">Bulk Import</a>
+                            </div>
+
+                        </div>
                     </div>
                     <div class="card-body">
                         <div class="table-responsive overflow-hidden">
                             <table class="table display nowrap" id="product_data_table" style="width:100%">
                                 <thead>
                                     <tr class="text-center">
+                                        <th></th>
+                                        <th></th>
                                         <th class="font-weight-bold">
                                             Name
                                         </th>
@@ -63,9 +70,29 @@
                     "url": "{% url 'product-list-data-json' %}",
                 },
                 "columns": [
+                    {"data": "edit"},
+                    {"data": "delete"},
                     {"data": "name"},
                     {"data": "sku"},
                 ],
+            });
+            $(document).on("click", ".data-delete", function(){
+                var url = $(this).data('href');
+                $.ajax({
+                    method: "POST",
+                    url: url,
+                    data: {
+                        'csrfmiddlewaretoken': '{{csrf_token}}'
+                    },
+                    success: function(result){
+                        if(result.status == 200){
+                            $('#product_data_table').DataTable().ajax.reload();
+                        }
+                    },
+                    error: function(){
+                        console.log('error')
+                    }
+                });
             });
         } );
     </script>
