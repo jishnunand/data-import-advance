@@ -1,0 +1,99 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Products{% endblock %}
+
+{% block csstags %}
+<link rel="stylesheet" href="https://cdn.datatables.net/1.10.23/css/jquery.dataTables.min.css">
+{% endblock %}
+
+{% block jstags %}
+{% endblock %}
+
+{% block css %}
+{% endblock %}
+
+{% block container %}
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12 col-12">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="chart-title">
+                            <h3>All Products</h3>
+                            <div class="text-right">
+                                <a href="{% url 'product-data-create' %}" class="btn btn-primary">Add Product</a>
+                                <a href="{% url 'product-bulk-import' %}" class="btn btn-primary">Bulk Import</a>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive overflow-hidden">
+                            <table class="table display nowrap" id="product_data_table" style="width:100%">
+                                <thead>
+                                    <tr class="text-center">
+                                        <th></th>
+                                        <th></th>
+                                        <th class="font-weight-bold">
+                                            Name
+                                        </th>
+                                        <th class="font-weight-bold">
+                                            Sku
+                                        </th>
+                                    </tr>
+                                </thead>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block javascript %}
+<script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+<link rel="stylesheet" href="https://cdn.datatables.net/1.10.23/css/jquery.dataTables.min.css">
+<script src="https://cdn.datatables.net/1.10.23/js/jquery.dataTables.min.js"></script>
+
+    <script>
+        $(document).ready( function () {
+            $('#product_data_table').DataTable({
+                "destroy": true,
+                "scrollX": true,
+                "ordering": true,
+                "pageLength": 25,
+                "lengthMenu": [[10, 25, 50], [10, 25, 50]],
+                "ajax": {
+                    "url": "{% url 'product-list-data-json' %}",
+                },
+                "columns": [
+                    {"data": "edit"},
+                    {"data": "delete"},
+                    {"data": "name"},
+                    {"data": "sku"},
+                ],
+            });
+            $(document).on("click", ".data-delete", function(){
+                var url = $(this).data('href');
+                $.ajax({
+                    method: "POST",
+                    url: url,
+                    data: {
+                        'csrfmiddlewaretoken': '{{csrf_token}}'
+                    },
+                    success: function(result){
+                        if(result.status == 200){
+                            $('#product_data_table').DataTable().ajax.reload();
+                        }
+                    },
+                    error: function(){
+                        console.log('error')
+                    }
+                });
+            });
+        } );
+    </script>
+{% endblock %}

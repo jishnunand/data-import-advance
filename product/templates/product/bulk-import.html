@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load widget_tweaks %}
+
+{% block title %}Product Creation{% endblock %}
+
+{% block csstags %}
+<link rel="stylesheet" href="https://cdn.datatables.net/1.10.23/css/jquery.dataTables.min.css">
+{% endblock %}
+
+{% block jstags %}
+{% endblock %}
+
+{% block css %}
+{% endblock %}
+
+{% block container %}
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12 col-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="chart-title">
+                            Bulk Import
+                        </h3>
+                    </div>
+                    <div class="card-body">
+                        <form action="{% url 'product-bulk-import' %}" method="post" enctype="multipart/form-data">
+                            {% csrf_token %}
+                            <div class="row">
+                                <div class="col-md-6">
+                                    {{form.file_upload.label}}
+                                </div>
+                                <div class="col-md-6">
+                                    {{form.file_upload | add_class:'form-control'}}
+                                </div>
+                            </div>
+                            <div class="row mt-2">
+                                <div class="col-md-12 text-right float-right">
+                                    <button class="btn btn-primary rounded-pill" type="submit">Save</button>
+                                    <a href="{% url 'product-list' %}" class="btn btn-secondary rounded-pill">Cancel</a>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block javascript %}
+<script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+{% endblock %}
