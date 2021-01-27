@@ -61,11 +61,13 @@
     <script>
         $(document).ready( function () {
             $('#product_data_table').DataTable({
-                "destroy": true,
                 "scrollX": true,
                 "ordering": true,
-                "pageLength": 25,
-                "lengthMenu": [[10, 25, 50], [10, 25, 50]],
+                "aLengthMenu": [[25, 50, 75, -1], [25, 50, 75, "All"]],
+                "iDisplayLength": 25,
+                "bPaginate": true,
+                "processing": true,
+                "bServerSide": true,
                 "ajax": {
                     "url": "{% url 'product-list-data-json' %}",
                 },
